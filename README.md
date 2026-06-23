@@ -47,6 +47,7 @@ Para levantar el servidor de desarrollo del backend utilizando un IDE (como Inte
    ```text
    \Back_end Food Store\configuracion-spring-boot-main\src\main\java\com\miempresa\tutorial\mi_primer_spring_boot\Back_end_Food_Store_Main.java
   Ejecutar el método main
+  
   En caso de que el IDE no reconozca gradle automaticamente hacer click derecho en el build.gradle y seleccionar 
   * Load Gradle Project (o Link Gradle Project)
   
