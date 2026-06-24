@@ -23,9 +23,9 @@ const menuToggleBtn = document.getElementById("menu-toggle") as HTMLButtonElemen
 const barraLateral = document.querySelector(".barra_lateral") as HTMLElement;
 const username = document.getElementById("user") as HTMLElement;
 
-const user=getUSer();
+const user = getUSer();
 const parseUser: IUsuario = JSON.parse(user);
-username.innerHTML=`${parseUser.nombre} ${parseUser.apellido}`
+username.innerHTML = `${parseUser.nombre} ${parseUser.apellido}`
 
 
 console.log(inputBuscar);
@@ -79,9 +79,9 @@ export const mensajeError = (mensaje: string, container: HTMLElement) => {
 }
 
 
- const actualizarStock=(producto: Product):number =>{
-  const productoExistente = carrito.find(item => item.producto.id === producto.id);
-  return  producto.stock - (productoExistente?.cantidad ?? 0);
+const actualizarStock = (producto: Product): number => {
+    const productoExistente = carrito.find(item => item.producto.id === producto.id);
+    return producto.stock - (productoExistente?.cantidad ?? 0);
 
 }
 //Cargar productos al main
@@ -90,9 +90,10 @@ const cargarProductos = (producto: Product[]) => {
     if (producto.length > 0) {
         const fragmento = document.createDocumentFragment();
         producto.forEach((p) => {
-            const tarjeta = document.createElement("article")
-            tarjeta.classList.add("tarjetas")
-            tarjeta.innerHTML = `
+            if (p.disponible == true) {
+                const tarjeta = document.createElement("article")
+                tarjeta.classList.add("tarjetas")
+                tarjeta.innerHTML = `
                     <img src="${p.imagen}" alt="${p.descripcion}">
                     <div class="info">
                         <span class="tag">${p.categoria.nombre}</span>
@@ -103,18 +104,15 @@ const cargarProductos = (producto: Product[]) => {
                             <button class="btn-agregar">+ Agregar</button>
                         </div></div>`
 
-            //Agregar al carrito a cada elemento creado se le agrega un event listener al boton de agregar
-            const botonAgregar = tarjeta.querySelector(".btn-agregar") as HTMLButtonElement;
+                //Agregar al carrito a cada elemento creado se le agrega un event listener al boton de agregar
+                const botonAgregar = tarjeta.querySelector(".btn-agregar") as HTMLButtonElement;
 
-            const abrirDescripcion = tarjeta.querySelector(".nombreProducto") as HTMLElement
+                const abrirDescripcion = tarjeta.querySelector(".nombreProducto") as HTMLElement
 
-            abrirDescripcion.addEventListener("click", () => {
-                window.location.href = `../productDetail/detalle.html?id=${p.id}`;
+                abrirDescripcion.addEventListener("click", () => {
+                    window.location.href = `../productDetail/detalle.html?id=${p.id}`;
 
-            });
-
-
-
+                });
 
                 //ESTILO BOTON AGREGAR
                 botonAgregar.addEventListener("click", () => {
@@ -124,13 +122,12 @@ const cargarProductos = (producto: Product[]) => {
                     botonActivado(botonAgregar);
                     // agregarAlCarrito(p);
                 });
-
-          const stockDisponible= actualizarStock(p)
-          if(stockDisponible===0){
-            botonDesactivado(botonAgregar)
-          }
-            fragmento.appendChild(tarjeta);
-
+                const stockDisponible = actualizarStock(p)
+                if (stockDisponible === 0) {
+                    botonDesactivado(botonAgregar)
+                }
+                fragmento.appendChild(tarjeta);
+            }
         })
         gridElements.appendChild(fragmento);
     } else {
@@ -149,7 +146,6 @@ const cargarCategorias = (categorias: ICategory[]) => {
         botonCategoria.innerText = `${c.nombre}`
         getCategoriasBtn.appendChild(botonCategoria);
     })
-
 }
 cargarCategorias(todasCategorias);
 
@@ -166,7 +162,6 @@ getCategoriasBtn.addEventListener("click", (e) => {
             productosEncontrados(todosProductos);
             return;
         }
-
         // filtro los productos recorro sus categoriasy me fijo si alguna de las categorias se llama igual a la categoria que toque
         const filtrados: Product[] = todosProductos.filter(p =>
             p.categoria.nombre === nombreCategoria);

@@ -91,7 +91,6 @@ const abrirModal = (pedido: IPedido) => {
         </div>
     `).join("");
 
-    // Inyectar todo en el modal
     modalBody.innerHTML = `
         <div class="modal-top">
             <span class="status-badge ${pedido.estado}" style="margin-bottom:10px; display:inline-block;">${pedido.estado}</span>

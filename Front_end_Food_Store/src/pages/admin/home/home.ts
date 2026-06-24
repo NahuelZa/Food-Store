@@ -252,4 +252,3 @@ barraLateral.addEventListener("click", (e) => {
 
 })
 cargarDashboard()
-//categoriasCantidad.innerHTML = categoriasTodas.length.toString();
